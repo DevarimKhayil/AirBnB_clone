@@ -3,7 +3,6 @@
 Module for the command interpreter.
 """
 
-
 import cmd
 from models import storage
 from models.base_model import BaseModel
@@ -168,6 +167,30 @@ class HBNBCommand(cmd.Cmd):
         else:
             instances = storage.all(args[0])
             print(len(instances))
+
+    def do_show_instance(self, arg):
+        """
+        Retrieves an instance based on its ID: <class name>.show(<id>).
+        """
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            class_name = args[0]
+            instance_id = args[1]
+
+            if class_name not in self.valid_classes:
+                print("** class doesn't exist **")
+            else:
+                key = "{}.{}".format(class_name, instance_id)
+                all_objects = storage.all()
+                instance = all_objects.get(key, None)
+                if instance:
+                    print(instance.__str__())
+                else:
+                    print("** no instance found **")
 
 
 if __name__ == '__main__':
