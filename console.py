@@ -3,16 +3,25 @@
 Module for the command interpreter.
 """
 
+
 import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
-
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 classes = {
     'BaseModel': BaseModel,
     'User': User,
-    # Add other classes here
+    'State': State,
+    'City': City,
+    'Amenity': Amenity,
+    'Place': Place,
+    'Review': Review,
 }
 
 
@@ -22,7 +31,10 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    valid_classes = ["BaseModel"]
+    valid_classes = ["BaseModel", "User",
+                     "State", "City",
+                     "Amenity", "Place",
+                     "Review"]
 
     def do_quit(self, arg):
         """
@@ -39,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """
-        Creates a new instance of BaseModel,
+        Creates a new instance of a specified class,
         saves it (to the JSON file), and prints the id.
         Usage: create <class name>
         """
@@ -49,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in self.valid_classes:
             print("** class doesn't exist **")
         else:
-            new_instance = BaseModel()
+            new_instance = classes[args[0]]()
             new_instance.save()
             print(new_instance.id)
 
@@ -78,7 +90,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """
         Deletes an instance based on the class name
-        and id (save the change into the JSON file).
+        and id (saves the change into the JSON file).
         Usage: destroy <class name> <id>
         """
         args = arg.split()
@@ -114,16 +126,6 @@ class HBNBCommand(cmd.Cmd):
             filtered_objects = {k: v for k,
                                 v in all_objects.items() if args[0] in k}
             print(filtered_objects)
-        """
-        added bad code
-        """
-        class_name = args[0]
-        if class_name not in classes:
-            print("** class doesn't exist **")
-            return
-
-        instances = storage.all(class_name)
-        print([str(instance) for instance in instances])
 
     def do_update(self, arg):
         """
@@ -153,14 +155,20 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def do_count(self, arg):
+        """
+        Retrieves the number of instances of a class.
+        Usage: <class name>.count()
+        """
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in self.valid_classes:
+            print("** class doesn't exist **")
+        else:
+            instances = storage.all(args[0])
+            print(len(instances))
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
-
-if __name__ == '__main__':
-    models_dict = {
-        'BaseModel': BaseModel,
-        'User': User  # Add User to the models dictionary
-        # Add other models as needed
-    }
