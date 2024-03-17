@@ -1,0 +1,49 @@
+.places {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.article {
+    width: calc(33.33% - 40px); /* Adjust the width as needed */
+    margin-bottom: 20px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.article h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.information,
+.amenities,
+.reviews {
+    margin-top: 20px;
+}
+
+.information div,
+.amenities ul,
+.reviews ul {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.information div span,
+.amenities li,
+.reviews li {
+    margin-right: 10px;
+}
+
+.user span {
+    font-weight: bold;
+}
+
+.description span {
+    display: block;
+}
+
