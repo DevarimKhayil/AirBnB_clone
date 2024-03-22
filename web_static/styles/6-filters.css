@@ -1,0 +1,35 @@
+.filter-box {
+    position: relative;
+}
+
+.popover {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #FAFAFA;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    list-style-type: none;
+    z-index: 1;
+}
+
+.filter-box:hover .popover {
+    display: block;
+}
+
+.filter-box h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.filter-box ul {
+    margin: 0;
+    padding: 0;
+}
+
+.filter-box ul li {
+    margin-bottom: 5px;
+}
